@@ -1,5 +1,8 @@
-import os
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+
 
 df1 = pd.read_csv("DATA/restaurant_1_week_002.csv")
 print(df1)
@@ -48,7 +51,6 @@ restaurant_2.to_csv("restaurant_2.csv", index=False)
 restaurant_1.columns.tolist()
 
 
-
 def extract(data_dir, prefix, start_week, end_week):
     """ Extract a temporal slice of data for a given data source.
     
@@ -63,7 +65,6 @@ def extract(data_dir, prefix, start_week, end_week):
     prefix: str
         Data source identification (e.g. restaurant_1)
     """
-
     df = pd.DataFrame()
     
     for i in range(start_week, end_week+1):
@@ -74,13 +75,6 @@ def extract(data_dir, prefix, start_week, end_week):
             df = pd.concat([df, batch], sort=True)
     
     return df
-
-df = extract(data_dir= "/c/Users/284749/TP_MLOps/DATA/",
-       prefix="restaurant_1" , start_week=108, end_week=110)
-
-df.head()
-
-
 
 def clean(df):
     """Clean dataframe."""
@@ -98,9 +92,39 @@ def clean(df):
     df = df.reset_index(drop=True)
     return df
 
+def merge(df1, df2):
+    df = pd.concat([df1, df2])
+    df = df.drop(columns = ['order_id'])
+    df = df.sort_values('order_date')
+    df = df.reset_index(drop=True)
+    return df
+
+def resample(df): 
+    df = df.resample('1H', on='order_date').sum().reset_index()
+    return df
 
 
-df = extract(data_dir= "/c/Users/284749/TP_MLOps/DATA/",
+# restaurant 1
+df1 = extract(data_dir= "c:/Users/284749/TP_MLOps/DATA/",
        prefix="restaurant_1" , start_week=108, end_week=110)
 
-df = clean(df)
+df1 = clean(df1)
+
+# restaurant 2
+df2 = extract(data_dir= "c:/Users/284749/TP_MLOps/DATA/",
+       prefix="restaurant_2" , start_week=108, end_week=110)
+
+df2 = clean(df2)
+
+df = merge(df1, df2)
+df = resample(df)
+df.head()
+
+
+
+fig, ax = plt.subplots(1,1, figsize=(10,5))
+ax.plot(df['order_date'], df['cash_in'])
+ax.set_title('Chiffre d affaire des restaurants en fonction du temps')
+ax.set_xlabel('Temps')
+ax.set_ylabel('cash in')
+plt.grid(True)
