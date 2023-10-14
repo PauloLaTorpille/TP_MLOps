@@ -140,7 +140,6 @@ df.head
 
 
 
-
 #dummies jours
 df = pd.get_dummies(df, columns=['day'])
 
