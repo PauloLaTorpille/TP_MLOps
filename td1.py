@@ -4,53 +4,52 @@ import matplotlib.pyplot as plt
 import os
 
 
-df1 = pd.read_csv("DATA/restaurant_1_week_002.csv")
-print(df1)
+#df1 = pd.read_csv(r'\\ad.univ-lille.fr\Etudiants\Homedir3\284749\Desktop\M2\devops\batch\restaurant_1_week_002.csv')
+#print(df1)
 
 
 # Chargement Restaurant 1
 # Chemin du répertoire contenant les fichiers CSV
-repertoire = "DATA/"
+#repertoire = r"\\ad.univ-lille.fr\Etudiants\Homedir3\284749\Desktop\M2\devops\batch"
 
 # Liste des fichiers qui commencent par "restaurant_1"
-fichiers_a_concatener = [f for f in os.listdir(repertoire) if f.startswith("restaurant_1") and f.endswith(".csv")]
+#fichiers_a_concatener = [f for f in os.listdir(repertoire) if f.startswith("restaurant_1") and f.endswith(".csv")]
 
 # Initialisation d'un DataFrame vide pour stocker les données concaténées
-restaurant_1 = pd.DataFrame()
+#restaurant_1 = pd.DataFrame()
 
 # Concaténer les fichiers
-for fichier in fichiers_a_concatener:
-    chemin_fichier = os.path.join(repertoire, fichier)
-    donnees = pd.read_csv(chemin_fichier)
-    restaurant_1 = pd.concat([restaurant_1, donnees], ignore_index=True)
+#for fichier in fichiers_a_concatener:
+   # chemin_fichier = os.path.join(repertoire, fichier)
+   # donnees = pd.read_csv(chemin_fichier)
+   # restaurant_1 = pd.concat([restaurant_1, donnees], ignore_index=True)
 
 # Sauvegarder les données concaténées dans un fichier CSV
-restaurant_1.to_csv("restaurant_1.csv", index=False)
+#restaurant_1.to_csv("restaurant_1.csv", index=False)
 
 
 
 # Chargement Restaurant 2
 # Chemin du répertoire contenant les fichiers CSV
-repertoire = "DATA/"
+#repertoire = r"\\ad.univ-lille.fr\Etudiants\Homedir3\284749\Desktop\M2\devops\batch"
 
 # Liste des fichiers qui commencent par "restaurant_1"
-fichiers_a_concatener = [f for f in os.listdir(repertoire) if f.startswith("restaurant_2") and f.endswith(".csv")]
+#fichiers_a_concatener = [f for f in os.listdir(repertoire) if f.startswith("restaurant_2") and f.endswith(".csv")]
 
 # Initialisation d'un DataFrame vide pour stocker les données concaténées
-restaurant_2 = pd.DataFrame()
+#restaurant_2 = pd.DataFrame()
 
 # Concaténer les fichiers
-for fichier in fichiers_a_concatener:
-    chemin_fichier = os.path.join(repertoire, fichier)
-    donnees = pd.read_csv(chemin_fichier)
-    restaurant_2 = pd.concat([restaurant_2, donnees], ignore_index=True)
+#for fichier in fichiers_a_concatener:
+   # chemin_fichier = os.path.join(repertoire, fichier)
+   # donnees = pd.read_csv(chemin_fichier)
+   # restaurant_2 = pd.concat([restaurant_2, donnees], ignore_index=True)
 
 # Sauvegarder les données concaténées dans un fichier CSV
-restaurant_2.to_csv("restaurant_2.csv", index=False)
+#restaurant_2.to_csv("restaurant_2.csv", index=False)
 
-restaurant_1.columns.tolist()
-
-
+#restaurant_1.columns.tolist()
+#restaurant_2.columns.tolist()  #les noms de colonnes sont différents
 def extract(data_dir, prefix, start_week, end_week):
     """ Extract a temporal slice of data for a given data source.
     
@@ -68,7 +67,7 @@ def extract(data_dir, prefix, start_week, end_week):
     df = pd.DataFrame()
     
     for i in range(start_week, end_week+1):
-        file_path = os.path.join(data_dir, f'{prefix}_week_{i}.csv')
+        file_path = os.path.join(data_dir, r'\\ad.univ-lille.fr\Etudiants\Homedir3\284749\Desktop\M2\devops\batch', f'{prefix}_week_{i}.csv')
 
         if os.path.isfile(file_path):
             batch = pd.read_csv(file_path)
@@ -103,9 +102,8 @@ def resample(df):
     df = df.resample('1H', on='order_date').sum().reset_index()
     return df
 
-
 # restaurant 1
-df1 = extract(data_dir= "c:/Users/284749/TP_MLOps/DATA/",
+df1 = extract(data_dir= r"\\ad.univ-lille.fr\Etudiants\Homedir3\284749\Desktop\M2\devops",
        prefix="restaurant_1" , start_week=108, end_week=110)
 
 df1 = clean(df1)
@@ -121,10 +119,45 @@ df = resample(df)
 df.head()
 
 
-
 fig, ax = plt.subplots(1,1, figsize=(10,5))
 ax.plot(df['order_date'], df['cash_in'])
 ax.set_title('Chiffre d affaire des restaurants en fonction du temps')
 ax.set_xlabel('Temps')
 ax.set_ylabel('cash in')
 plt.grid(True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
