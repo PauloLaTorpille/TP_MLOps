@@ -127,12 +127,22 @@ ax.set_ylabel('cash in')
 plt.grid(True)
 
 
+#créer jour de la semaine (2017)
+df['year'] = df['order_date'].dt.year
+#créer mois (1,2,...)
+df['month'] = df['order_date'].dt.month
+#créer jour de la semaine (0,1,2,3,4,5,6)
+df['day'] = df['order_date'].dt.weekday
+#créer l'heure (9,10,11,...)
+df['hours'] = df['order_date'].dt.hour
+
+df.head
 
 
 
 
-
-
+#dummies jours
+df = pd.get_dummies(df, columns=['day'])
 
 
 
